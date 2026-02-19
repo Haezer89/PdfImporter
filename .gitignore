@@ -1,0 +1,74 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.eggs/
+*.egg-info/
+site/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+**/.venv/
+
+# Node / frontend
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build outputs
+coverage/
+*.log
+tmp/
+temp/
+out/
+
+# Vite
+frontend/dist/
+
+# Docker / local runtime data
+*.pid
+*.pid.lock
+
+# Misc binary artifacts
+*.dll
+*.exe
+*.obj
+*.o
+*.a
+*.lib
+*.class
