@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pdf-importer.local/schemas/invoice.schema.json",
+  "title": "Generic Invoice",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "document_type",
+    "document",
+    "seller",
+    "buyer",
+    "line_items",
+    "totals"
+  ],
+  "properties": {
+    "document_type": {
+      "type": "string",
+      "const": "invoice"
+    },
+    "document": {
+      "$ref": "#/$defs/document"
+    },
+    "seller": {
+      "$ref": "#/$defs/party"
+    },
+    "buyer": {
+      "$ref": "#/$defs/party"
+    },
+    "payment": {
+      "$ref": "#/$defs/payment"
+    },
+    "line_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/line_item"
+      }
+    },
+    "totals": {
+      "$ref": "#/$defs/totals"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "confidence": {
+      "$ref": "#/$defs/confidence"
+    }
+  },
+  "$defs": {
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_id"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issue_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "language": {
+          "type": "string"
+        },
+        "purchase_order_number": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        }
+      }
+    },
+    "address": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "party": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tax_id": {
+          "type": "string"
+        },
+        "vat_id": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/$defs/address"
+        },
+        "contact": {
+          "$ref": "#/$defs/contact"
+        }
+      }
+    },
+    "payment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "payment_terms": {
+          "type": "string"
+        },
+        "payment_method": {
+          "type": "string"
+        },
+        "iban": {
+          "type": "string"
+        },
+        "bic": {
+          "type": "string"
+        }
+      }
+    },
+    "line_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "description"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sku": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "unit_price": {
+          "type": "number"
+        },
+        "discount_percent": {
+          "type": "number"
+        },
+        "tax_rate_percent": {
+          "type": "number"
+        },
+        "tax_code": {
+          "type": "string"
+        },
+        "line_net": {
+          "type": "number"
+        },
+        "line_tax": {
+          "type": "number"
+        },
+        "line_gross": {
+          "type": "number"
+        }
+      }
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "net_subtotal": {
+          "type": "number"
+        },
+        "discount_total": {
+          "type": "number"
+        },
+        "tax_total": {
+          "type": "number"
+        },
+        "gross_total": {
+          "type": "number"
+        },
+        "amount_due": {
+          "type": "number"
+        }
+      }
+    },
+    "confidence_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "confidence"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "overall": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/confidence_field"
+          }
+        }
+      }
+    }
+  }
+}
